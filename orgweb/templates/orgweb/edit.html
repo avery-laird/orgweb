@@ -1,6 +1,8 @@
 {% extends 'base.html' %}
 {% load mezzanine_tags %}
 
+{% block title %}{{ file.title }}{% endblock %}
+
 {% block main %}
 {% if created %}
     <h4>created new orgfile</h4>

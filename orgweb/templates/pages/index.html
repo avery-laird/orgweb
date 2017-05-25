@@ -1,8 +1,11 @@
 {% extends "pages/richtextpage.html" %}
+{% load pages_tags %}
+{% block title %}{{ page.title }}{% endblock %}
 
 {% block main %}
 {#{{ block.super }}#}
 {% if user.is_authenticated %}
-    <h1>Hey {{ user.first_name }}</h1>
+    <h1>Hello {{ request.user.username }}</h1>
+    <h4>Here are your tasks for today:</h4>
 {% endif %}
 {% endblock %}

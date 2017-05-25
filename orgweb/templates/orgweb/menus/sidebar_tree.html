@@ -1,4 +1,7 @@
+{% load pages_tags %}
+
 {% spaceless %}
+{% if request.user.is_authenticated %}
 <ul class="nav nav-list ">
     {% for orgfile in request.user.profile.orgmodel_set.all %}
     <li {% if orgfile.title == file.title %}class="active"{% endif %}>
@@ -6,4 +9,7 @@
     </li>
     {% endfor %}
 </ul>
+{% else %}
+    {% page_menu 'pages/menus/tree.html' %}
+{% endif %}
 {% endspaceless %}
