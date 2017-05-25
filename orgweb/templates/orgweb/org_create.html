@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block main %}
+
+{% if request.user.profile.orgmodel_set %}
+    <ul class="list-group">
+    {% for file in request.user.profile.orgmodel_set.all %}
+    <li class="list-group-item">
+        {{ file.title }}
+        <a href="{% url "org_delete" file.pk %}" class="btn btn-danger btn-sm pull-right">
+            {% trans "Delete" %} <span class="glyphicon glyphicon-remove"></span></a>
+    </li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>{{ request.user.username }} has no orgfiles</p>
+{% endif %}
+
+<form action="{% url "org_edit" %}" id="create-org-form">
+{% csrf_token %}
+  <div class="input-group">
+    <input type="text" class="form-control" id="create-org-input" placeholder="New file..." aria-describedby="basic-addon2">
+    <span class="input-group-addon" id="basic-addon2">.org</span>
+  </div>
+</form>
+
+{% endblock %}
+
+{% block footer_js %}
+
+<script type="text/javascript">
+$( "#create-org-form").submit(function( event ) {
+
+    event.preventDefault();
+    var $form = $( this),
+            title = $form.find( "input[id='create-org-input']").val(),
+            url = $form.attr( "action" );
+
+    var orgfile = { title : title };
+    var posting = $.post( url, {
+        orgfile: JSON.stringify(orgfile),
+        csrfmiddlewaretoken: document.getElementsByName('csrfmiddlewaretoken')[0].value,
+        dataType : "json"
+    });
+
+    posting.done(function( data, statusText, xhr ) {
+        console.log(data);
+        if (xhr.status == 200) {
+            console.log("success");
+            $form.find( "div[class='input-group']").animate({
+                opacity: 0
+            }, 500, function() {
+               console.log("animation complete");
+               window.location.replace("{% url 'org_create' %}");
+            });
+        }
+    });
+
+});
+</script>
+{% endblock %}

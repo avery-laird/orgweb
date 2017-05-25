@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% load mezzanine_tags %}
+
+{% block main %}
+{% if created %}
+    <h4>created new orgfile</h4>
+{% endif %}
+
+{% errors_for form %}
+
+<form action="/orgweb/edit/{{ file.title }}/" method="post">
+  <fieldset>
+    <legend></legend>
+      {% fields_for form %}
+        <div class="form-actions">
+          <input type="submit" value="Submit" class="btn btn-primary btn-large" />
+        </div>
+  </fieldset>
+</form>
+{% endblock %}

@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block main %}
+{% if request.user.is_authenticated %}
+        <div class="list-group">
+        {% if request.user.orgmodel_set.all %}
+            {% for file in request.user.orgmodel_set.all %}
+              <div class="list-group-item">
+                <h4 class="list-group-item-heading">{{ file.title }}</h4>
+                <p class="list-group-item-text">{{ file.description }}</p>
+
+                <a href="#" class="btn btn-primary">edit</a>
+
+              </div>
+            {% endfor %}
+        {% else %}
+        <div class="list-group-item">
+            <h1 class="list-group-item-heading">Looks like you don't have any org files. <a href="{% url "org_create" %}" class="btn btn-success btn-md btn-account">
+            <span class="glyphicon glyphicon-edit"></span> {% trans "Get organized" %}</a>
+            </h1>
+        </div>
+        {% endif %}
+{% else %}
+<div>
+    <p>{{ request.user.username }} has {{ request.user.orgmodel_set.all|length }} orgfile{{ request.user.orgmodel_set.all|length|pluralize }}</p>
+</div>
+{% endif %}
+</div>
+{% endblock %}

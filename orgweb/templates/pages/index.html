@@ -1,0 +1,8 @@
+{% extends "pages/richtextpage.html" %}
+
+{% block main %}
+{#{{ block.super }}#}
+{% if user.is_authenticated %}
+    <h1>Hey {{ user.first_name }}</h1>
+{% endif %}
+{% endblock %}

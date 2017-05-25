@@ -1,0 +1,9 @@
+{% spaceless %}
+<ul class="nav nav-list ">
+    {% for orgfile in request.user.profile.orgmodel_set.all %}
+    <li {% if orgfile.title == file.title %}class="active"{% endif %}>
+      <a href="{% url "org_edit" orgfile.title %}">{{ orgfile.title }}</a>
+    </li>
+    {% endfor %}
+</ul>
+{% endspaceless %}
